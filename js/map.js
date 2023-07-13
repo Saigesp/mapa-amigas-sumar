@@ -4,7 +4,17 @@ L.tileLayer.provider('CartoDB.Voyager').addTo(map);
 
 const markers = [];
 
+let popup = null;
+
+function onClick(e) {
+   var popup = e.target.getPopup();
+   var content = popup.getContent();
+   console.log(content);
+}
+
 d3.csv("/data/data-geocoded.csv", (data) => {
-    const marker = L.marker([data.lat, data.lng]).addTo(map);
+    const marker = L.marker([data.lat, data.lng])
+    marker.addTo(map);
+    marker.bindPopup(`<a href="${data.form}" target="_blank" rel="noopener noreferrer">Únete a este grupos de amigas/os de Sumar</a>`);
     markers.push(marker);
 })

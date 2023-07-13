@@ -72,13 +72,13 @@ def parse_data():
     with open(INPUT_FILE) as inputfile:
         with open(OUTPUT_FILE, "w") as outputfile:
             writer = csv.writer(outputfile)
-            writer.writerow(["lng", "lat"])
+            writer.writerow(["id", "lng", "lat", "form"])
             reader = csv.DictReader(inputfile)
             for row in reader:
                 if not row["Municipio"]:
                     row["Municipio"] = row["Provincia"]
                 lat, lng = geocode_address(row)
-                writer.writerow([lng, lat])
+                writer.writerow([row["ID GRUPO"], lng, lat, row["LINK"]])
 
 
 if __name__ == "__main__":

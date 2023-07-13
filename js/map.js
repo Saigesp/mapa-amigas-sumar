@@ -12,7 +12,7 @@ function onClick(e) {
    console.log(content);
 }
 
-d3.csv("/data/data-geocoded.csv", (data) => {
+d3.csv("data/data-geocoded.csv", (data) => {
     const marker = L.marker([data.lat, data.lng])
     marker.addTo(map);
     marker.bindPopup(`<a href="${data.form}" target="_blank" rel="noopener noreferrer">Únete a este grupos de amigas/os de Sumar</a>`);

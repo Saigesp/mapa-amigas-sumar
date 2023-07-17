@@ -5,9 +5,11 @@ import requests
 import random
 from pathlib import Path
 
+ADD_ROWS = True
 
 GOOGLE_MAPS_API_URL = 'https://maps.googleapis.com/maps/api/geocode/json'
-INPUT_FILE = Path(__file__).resolve().parent / "data" / "data-raw.csv"
+INPUT_FILE_REPLACE = Path(__file__).resolve().parent / "data" / "data-raw-replace.csv"
+INPUT_FILE_ADD = Path(__file__).resolve().parent / "data" / "data-raw-add.csv"
 OUTPUT_FILE = Path(__file__).resolve().parent / "data" / "data-geocoded.csv"
 
 
@@ -69,10 +71,13 @@ def geocode_address(row: dict) -> tuple:
 
 
 def parse_data():
-    with open(INPUT_FILE) as inputfile:
-        with open(OUTPUT_FILE, "w") as outputfile:
+    write_mode = "a" if ADD_ROWS else "w"
+    raw_file = INPUT_FILE_ADD if ADD_ROWS else INPUT_FILE_REPLACE
+    with open(raw_file) as inputfile:
+        with open(OUTPUT_FILE, write_mode) as outputfile:
             writer = csv.writer(outputfile)
-            writer.writerow(["id", "lng", "lat", "form"])
+            if not ADD_ROWS:
+                writer.writerow(["id", "lng", "lat", "form"])
             reader = csv.DictReader(inputfile)
             for row in reader:
                 if not row["Municipio"]:

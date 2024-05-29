@@ -15,12 +15,20 @@ OUTPUT_FILE = Path(__file__).resolve().parent / "data" / "data-geocoded.csv"
 
 def compose_address(row: dict) -> str:
     return (
-        f'{row["Dirección postal"]}, '
-        f'{row["Municipio"]}, '
-        f'{row["Provincia"]}, '
-        f'{row["Código Postal"]}, '
+        f'{row["address"]}, '
+        f'{row["city"]}, '
+        f'{row["cp"]}, '
         "España"
     )
+
+
+def get_id(row: dict) -> str:
+    return row['id']
+
+
+def get_link(row: dict) -> str:
+    return "https://actionnetwork.org/forms/unete-a-un-grupo-de-amigas-de-sumar?ref=grupo_" + row['id']
+
 
 def get_geometry_from_results(response: dict) -> dict:
     empty_result = {"lat": "", "lng": ""}
@@ -80,10 +88,8 @@ def parse_data():
                 writer.writerow(["id", "lng", "lat", "form"])
             reader = csv.DictReader(inputfile)
             for row in reader:
-                if not row["Municipio"]:
-                    row["Municipio"] = row["Provincia"]
                 lat, lng = geocode_address(row)
-                writer.writerow([row["ID GRUPO"], lng, lat, row["LINK"]])
+                writer.writerow([get_id(row), lng, lat, get_link(row)])
 
 
 if __name__ == "__main__":

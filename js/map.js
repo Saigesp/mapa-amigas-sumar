@@ -17,6 +17,6 @@ function onClick(e) {
 d3.csv("data/data-geocoded.csv", (data) => {
     const marker = L.marker([data.lat, data.lng])
     marker.addTo(map);
-    marker.bindPopup(`<a href="${data.form}" target="_blank" rel="noopener noreferrer">Únete a este grupo de amigas/os de Sumar</a>`);
+    marker.bindPopup(`<a href="${data.form}" target="_blank" rel="noopener noreferrer">Únete a este grupo de Amigas de Sumar</a>`);
     markers.push(marker);
 })
